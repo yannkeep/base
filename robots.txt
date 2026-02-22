@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ouaisfieu.github.io/base/sitemap.xml
+
+# ouaisfieu · Base — Intelligence Citoyenne Belge
+# Contre-institution numérique · CC BY-NC 4.0
+# Fork · Hack · Spread
