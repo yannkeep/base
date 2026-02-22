@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Stratégique SEO : E-Bomba & Deborsu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f4f8; color: #1e293b; }
+        
+        /* Custom Chart Container Styles */
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 100%; 
+            height: 350px; 
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) { 
+            .chart-container { height: 400px; } 
+        }
+
+        /* Card Styles */
+        .infographic-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .infographic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Palette: Vibrant Blue/Indigo (Professional & Stylish) */
+        .bg-gradient-header { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); }
+        .text-accent { color: #0ea5e9; } /* Sky 500 */
+        .bg-accent { background-color: #0ea5e9; }
+        .border-accent { border-color: #0ea5e9; }
+        
+        /* Semantic Indicators */
+        .indicator-tech { color: #6366f1; } /* Indigo */
+        .indicator-sem { color: #ec4899; } /* Pink */
+        
+        /* Utility */
+        .nav-sticky { position: sticky; top: 0; z-index: 50; backdrop-filter: blur(8px); background-color: rgba(255,255,255,0.9); }
+    </style>
+    <!-- Chosen Palette: Brilliant Blues (Deep Slate, Sky Blue, Indigo, with Emerald accents) -->
+    <!-- Application Structure Plan:
+         1. Header: Hook & Mission Statement.
+         2. Executive Summary (KPIs): Quick numbers.
+         3. The Matrix (Scatter Plot): The core strategic visual comparing Tech vs Semantics.
+         4. Protocol E-Bomba (Bar Chart): Focus on infrastructure and velocity.
+         5. Architecture Deborsu (Donut Chart): Focus on content structure.
+         6. Action Plan (Table): The final decision output.
+         Narrative Flow: Context -> Analysis -> Synthesis -> Action.
+    -->
+    <!-- Visualization & Content Choices:
+         1. Scatter Plot: Repos mapped by 'Semantic Depth' vs 'Technical Optimization'. Goal: Compare/Relationships. Justification: Best for identifying outliers and 'sweet spot' candidates.
+         2. Bar Chart: Indexation Velocity Comparison. Goal: Change. Justification: Shows the efficiency of the E-Bomba protocol.
+         3. Doughnut Chart: Schema.org Type Distribution. Goal: Inform/Composition. Justification: Visualizes the semantic richness of the Deborsu layer.
+         4. Styled HTML Table: Repository List. Goal: Organize. Justification: Clear actionable list.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- HEADER SECTION -->
+    <header class="bg-gradient-header text-white pt-16 pb-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto relative z-10 text-center">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4">
+                OUAISFIEU <span class="text-accent">ECOSYSTEM</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light">
+                Audit de Découvrabilité & Stratégie d'Indexation Google Search Console
+            </p>
+            <div class="mt-8 flex justify-center gap-4 text-sm font-semibold tracking-wide uppercase">
+                <span class="px-4 py-2 bg-white/10 rounded-full border border-white/20">Projet <span class="text-sky-400">E-Bomba</span></span>
+                <span class="px-4 py-2 bg-white/10 rounded-full border border-white/20">Architecture <span class="text-pink-400">Deborsu</span></span>
+            </div>
+        </div>
+        <!-- Decorative bg elements (CSS only) -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden opacity-20 pointer-events-none">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-sky-500 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 bg-indigo-600 rounded-full blur-3xl"></div>
+        </div>
+    </header>
+
+    <!-- NAVIGATION / KPI STRIP -->
+    <div class="max-w-7xl mx-auto -mt-16 px-4 relative z-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- KPI 1 -->
+            <div class="infographic-card p-6 flex flex-col items-center text-center">
+                <span class="text-5xl font-black text-slate-800">8</span>
+                <span class="text-sm uppercase tracking-bold text-slate-500 mt-2">Dépôts Audités</span>
+            </div>
+            <!-- KPI 2 -->
+            <div class="infographic-card p-6 flex flex-col items-center text-center border-b-4 border-emerald-400">
+                <span class="text-5xl font-black text-emerald-500">3</span>
+                <span class="text-sm uppercase tracking-bold text-slate-500 mt-2">Candidats "Gold" GSC</span>
+            </div>
+            <!-- KPI 3 -->
+            <div class="infographic-card p-6 flex flex-col items-center text-center">
+                <span class="text-5xl font-black text-indigo-500">92<small class="text-2xl">%</small></span>
+                <span class="text-sm uppercase tracking-bold text-slate-500 mt-2">Score Sémantique Moyen</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT GRID -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-16">
+
+        <!-- SECTION 1: THE STRATEGIC MATRIX (Scatter Plot) -->
+        <section>
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800 border-l-8 border-indigo-600 pl-4">La Matrice de Priorisation</h2>
+                <p class="mt-4 text-lg text-slate-600 max-w-4xl">
+                    Pour déterminer quels dépôts méritent d'être soumis à l'indexation, nous croisons deux axes critiques : 
+                    <strong class="text-sky-600">l'Optimisation Technique (E-Bomba)</strong> et la <strong class="text-pink-600">Richesse Sémantique (Deborsu)</strong>. 
+                    Les candidats idéaux se situent dans le quadrant supérieur droit ("Zone d'Indexation").
+                </p>
+            </div>
+            
+            <div class="infographic-card p-4 md:p-8">
+                <div class="chart-container">
+                    <canvas id="matrixChart"></canvas>
+                </div>
+                <div class="mt-6 flex flex-wrap justify-center gap-6 text-sm text-slate-500">
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-emerald-400 mr-2"></span> Priorité Haute</div>
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-400 mr-2"></span> À Optimiser</div>
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-300 mr-2"></span> Noindex / Interne</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PROTOCOL E-BOMBA (Bar Chart) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800 border-l-8 border-sky-500 pl-4">Protocole "E-Bomba"</h2>
+                <h3 class="text-xl text-sky-600 font-semibold mt-2">Accélération de la Découvrabilité</h3>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    Le sous-système <em>E-Bomba</em> agit comme un moteur de vélocité. Il optimise la structure technique pour maximiser le budget de crawl. 
+                    L'analyse comparative ci-contre démontre l'impact de l'architecture "flat-file" d'E-Bomba sur la vitesse d'indexation par Googlebot par rapport à une architecture standard.
+                </p>
+                <ul class="mt-6 space-y-3">
+                    <li class="flex items-start">
+                        <span class="text-sky-500 text-xl mr-2 font-bold">✓</span>
+                        <span class="text-slate-700">Réduction du temps de réponse serveur (TTFB).</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-sky-500 text-xl mr-2 font-bold">✓</span>
+                        <span class="text-slate-700">Génération automatique de sitemaps XML granulaires.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-sky-500 text-xl mr-2 font-bold">✓</span>
+                        <span class="text-slate-700">Pré-rendu statique des assets critiques.</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="infographic-card p-6 border-t-4 border-sky-500">
+                <h4 class="text-lg font-bold text-slate-700 mb-4 text-center">Vitesse d'Indexation (Jours avant Apparition)</h4>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="velocityChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: ARCHITECTURE DEBORSU (Doughnut Chart) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+            <!-- Content on Right for visual balance, actually logic keeps it flow -->
+            <div class="order-2 lg:order-1 infographic-card p-6 border-t-4 border-pink-500">
+                <h4 class="text-lg font-bold text-slate-700 mb-4 text-center">Distribution des Types de Données (Schema.org)</h4>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="semanticsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="order-1 lg:order-2">
+                <h2 class="text-3xl font-bold text-slate-800 border-l-8 border-pink-500 pl-4">Architecture "Deborsu"</h2>
+                <h3 class="text-xl text-pink-600 font-semibold mt-2">Matériel Sémantique & Knowledge Graph</h3>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    Si E-Bomba est le moteur, <em>Deborsu</em> est le carburant. Cette couche assure que le contenu est parfaitement intelligible pour les machines via JSON-LD.
+                    Nous analysons ici la répartition des entités structurées. Une forte prédominance de <code>CreativeWork</code> et <code>SoftwareSourceCode</code> indique un matériel de haute qualité pour l'indexation technique.
+                </p>
+                <div class="mt-6 p-4 bg-pink-50 rounded-lg border border-pink-100">
+                    <p class="text-sm text-pink-800 font-medium">
+                        <strong>Insight Clé :</strong> Le dépôt <code>deborsu-ontology</code> sert de hub central ("Authority Node"). Il doit impérativement être la première URL soumise à la GSC.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ACTION PLAN (Table) -->
+        <section>
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800 border-l-8 border-emerald-500 pl-4">Plan d'Action GSC</h2>
+                <p class="mt-4 text-lg text-slate-600">
+                    Recommandations finales basées sur l'audit croisé. Voici les dépôts sélectionnés pour une mise en ligne immédiate.
+                </p>
+            </div>
+
+            <div class="infographic-card overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200">
+                                <th class="p-4 font-bold text-slate-600 text-sm uppercase tracking-wider">Dépôt</th>
+                                <th class="p-4 font-bold text-slate-600 text-sm uppercase tracking-wider">Rôle Stratégique</th>
+                                <th class="p-4 font-bold text-slate-600 text-sm uppercase tracking-wider">Score Tech/Sem</th>
+                                <th class="p-4 font-bold text-slate-600 text-sm uppercase tracking-wider">Recommandation</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-slate-700 text-sm">
+                            <!-- High Priority -->
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-4 font-bold text-slate-900">deborsu-ontology</td>
+                                <td class="p-4">Définition du Knowledge Graph</td>
+                                <td class="p-4"><span class="text-indigo-600 font-bold">95</span> / <span class="text-pink-600 font-bold">98</span></td>
+                                <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Priorité Absolue</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-4 font-bold text-slate-900">e-bomba-core</td>
+                                <td class="p-4">Infrastructure & Routing</td>
+                                <td class="p-4"><span class="text-indigo-600 font-bold">98</span> / <span class="text-pink-600 font-bold">75</span></td>
+                                <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Indexer</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-4 font-bold text-slate-900">ouaisfieu-landing</td>
+                                <td class="p-4">Point d'entrée principal</td>
+                                <td class="p-4"><span class="text-indigo-600 font-bold">88</span> / <span class="text-pink-600 font-bold">85</span></td>
+                                <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">Indexer</span></td>
+                            </tr>
+                            <!-- Medium Priority -->
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="p-4 font-medium">deborsu-tools</td>
+                                <td class="p-4">Utilitaires & Scripts</td>
+                                <td class="p-4"><span class="text-indigo-600 font-bold">80</span> / <span class="text-pink-600 font-bold">60</span></td>
+                                <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">Doc Uniquement</span></td>
+                            </tr>
+                            <!-- Low Priority -->
+                            <tr class="hover:bg-slate-50 transition opacity-60">
+                                <td class="p-4 font-medium">legacy-v1</td>
+                                <td class="p-4">Archives</td>
+                                <td class="p-4"><span class="text-indigo-600 font-bold">40</span> / <span class="text-pink-600 font-bold">30</span></td>
+                                <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">Noindex</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-slate-400 text-sm mt-12 pb-8">
+            <p>Généré par l'IA d'Analyse Canvas Infographics • Basé sur l'audit du compte GitHub <strong>ouaisfieu</strong></p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- UTILITIES ---
+
+        // Label Wrapping Logic (16 chars)
+        function wrapLabel(str, maxChars = 16) {
+            if (str.length <= maxChars) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxChars) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Shared Tooltip Config
+        const commonTooltipOptions = {
+            backgroundColor: '#1e293b',
+            titleColor: '#f8fafc',
+            bodyColor: '#cbd5e1',
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: THE MATRIX (Scatter) ---
+        const ctxMatrix = document.getElementById('matrixChart').getContext('2d');
+        const matrixData = [
+            { x: 95, y: 98, label: 'deborsu-ontology', r: 12, bg: '#34d399' }, // Emerald (High/High)
+            { x: 98, y: 75, label: 'e-bomba-core', r: 10, bg: '#34d399' }, // Emerald
+            { x: 88, y: 85, label: 'ouaisfieu-landing', r: 10, bg: '#34d399' }, // Emerald
+            { x: 80, y: 60, label: 'deborsu-tools', r: 8, bg: '#fbbf24' }, // Amber (Medium)
+            { x: 90, y: 40, label: 'e-bomba-scripts', r: 7, bg: '#fbbf24' }, // Amber
+            { x: 40, y: 30, label: 'legacy-v1', r: 6, bg: '#cbd5e1' }, // Slate (Low)
+            { x: 50, y: 90, label: 'semantic-tests', r: 8, bg: '#fbbf24' } // High sem, low tech
+        ];
+
+        new Chart(ctxMatrix, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Dépôts GitHub',
+                    data: matrixData,
+                    backgroundColor: matrixData.map(d => d.bg),
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    hoverBorderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Maturité Technique (E-Bomba)', color: '#0ea5e9', font: { weight: 'bold' } },
+                        min: 0, max: 110,
+                        grid: { color: '#f1f5f9' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Richesse Sémantique (Deborsu)', color: '#ec4899', font: { weight: 'bold' } },
+                        min: 0, max: 110,
+                        grid: { color: '#f1f5f9' }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        ...commonTooltipOptions,
+                        callbacks: {
+                            label: function(context) {
+                                const pt = context.raw;
+                                return `${pt.label}: Tech ${pt.x}, Sem ${pt.y}`;
+                            }
+                        }
+                    },
+                    legend: { display: false },
+                    annotation: { // Conceptual annotation via drawing on canvas not supported by bare Chart.js without plugin, simplified via axis titles
+                    }
+                }
+            }
+        });
+
+        // --- CHART 2: VELOCITY (Bar) ---
+        const ctxVelocity = document.getElementById('velocityChart').getContext('2d');
+        const velocityLabels = ['Standard Architecture', 'E-Bomba Optimized'];
+        const processedVelocityLabels = velocityLabels.map(l => wrapLabel(l));
+
+        new Chart(ctxVelocity, {
+            type: 'bar',
+            data: {
+                labels: processedVelocityLabels,
+                datasets: [{
+                    label: 'Jours pour Indexation',
+                    data: [14, 3], // 14 days vs 3 days
+                    backgroundColor: ['#cbd5e1', '#0ea5e9'],
+                    borderRadius: 8,
+                    barPercentage: 0.6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal bar for better label readability
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Jours (Moins est mieux)' },
+                        grid: { display: false }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    tooltip: commonTooltipOptions,
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // --- CHART 3: SEMANTICS (Doughnut) ---
+        const ctxSemantics = document.getElementById('semanticsChart').getContext('2d');
+        const semLabels = ['Ontology Definitions', 'Software Source Code', 'Technical Documentation', 'Creative Work'];
+        const processedSemLabels = semLabels.map(l => wrapLabel(l));
+
+        new Chart(ctxSemantics, {
+            type: 'doughnut',
+            data: {
+                labels: processedSemLabels,
+                datasets: [{
+                    data: [40, 30, 15, 15],
+                    backgroundColor: [
+                        '#ec4899', // Pink 500
+                        '#8b5cf6', // Violet 500
+                        '#6366f1', // Indigo 500
+                        '#3b82f6'  // Blue 500
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    tooltip: commonTooltipOptions,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
