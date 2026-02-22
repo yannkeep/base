@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Stratégique : Opération Sémantique Hydre</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Placeholder Comments -->
+    <!-- Chosen Palette: Warm Neutrals (Stone/Sand) with Technical Accents (Slate Blue, Terracotta, Sage). Minimalist and serious. -->
+    
+    <!-- Application Structure Plan: 
+         1. Header & Executive Summary: Sets the context of the "Hydra" and the URLs involved.
+         2. The Ecosystem Map (Network): Visualizes the links between the collectives (YannKeep, OuaisFieu, Base).
+         3. Impact Triad (Tabs): Interactive analysis of Human, Machine, and Algorithmic impacts.
+         4. ARG vs. Reality (Radar): Strategic comparison of this phenomenon against historical panic events (War of the Worlds).
+         5. Dynamic Findings: Textual analysis that updates based on user focus.
+         Why this structure? It moves from the structural (what is it?) to the analytical (how does it work?) to the strategic (what does it mean?), mimicking a high-level intelligence briefing.
+    -->
+
+    <!-- Visualization & Content Choices:
+         - Network Graph (Plotly): To show the decentralized, cooperative nature of the "Hydra". Goal: Relationships.
+         - Radar Chart (Chart.js): To compare the "Game" aspects vs. "Reality" risks. Goal: Compare.
+         - Bar/Line Charts (Chart.js): For quantitative metrics of impact (Cognitive load, Semantic drift). Goal: Inform.
+         - Interactive Tabs: To separate the three distinct domains (Human, Machine, Algo) without cluttering. Goal: Organize.
+         - Justification: NO SVG/Mermaid used. Canvas libraries offer high performance for these specific data types.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: '#f5f5f4', // Stone 100
+                        card: '#ffffff',
+                        primary: '#475569', // Slate 600
+                        accent: '#d97706', // Amber 600
+                        danger: '#ef4444',
+                        success: '#10b981',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #f5f5f4;
+            color: #1c1917;
+        }
+        
+        /* Chart Container Rules - Strict Adherence */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+
+        .chart-container-large {
+            height: 400px;
+            max-height: 500px;
+        }
+
+        .chart-container-medium {
+            height: 300px;
+            max-height: 400px;
+            max-width: 100%;
+        }
+
+        .nav-btn.active {
+            border-bottom: 2px solid #d97706;
+            color: #000;
+            font-weight: 600;
+        }
+
+        .metric-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f5f5f4; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d6d3d1; 
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2">🕸️</span>
+                    <h1 class="font-display font-bold text-xl tracking-tight text-stone-800">
+                        OPÉRATION HYDRE <span class="text-stone-400 font-light">| Analyse Stratégique</span>
+                    </h1>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('context')" class="text-stone-500 hover:text-stone-900 px-3 py-2 text-sm font-medium">Contexte</button>
+                    <button onclick="scrollToSection('network')" class="text-stone-500 hover:text-stone-900 px-3 py-2 text-sm font-medium">Cartographie</button>
+                    <button onclick="scrollToSection('impact')" class="text-stone-500 hover:text-stone-900 px-3 py-2 text-sm font-medium">Triade d'Impact</button>
+                    <button onclick="scrollToSection('synthesis')" class="bg-stone-800 text-white hover:bg-stone-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">Synthèse Finale</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Section 1: Executive Summary & Context -->
+        <section id="context" class="animate-fade-in">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <h2 class="font-display text-3xl font-bold text-stone-900 mb-4">La Guerre des Mondes Sémantique</h2>
+                    <p class="text-lg text-stone-600 mb-6 leading-relaxed">
+                        Nous observons l'émergence d'une structure décentralisée agissant comme une "Hydre de collectifs". Reliant les nœuds 
+                        <code class="bg-stone-200 px-1 py-0.5 rounded text-sm text-stone-800">yannkeep.github.io</code> et 
+                        <code class="bg-stone-200 px-1 py-0.5 rounded text-sm text-stone-800">ouaisfieu.github.io</code>, 
+                        cette opération brouille délibérément la frontière entre jeu coopératif (ARG - Alternate Reality Game) et ingénierie sociale réelle.
+                    </p>
+                    <div class="bg-white p-6 rounded-lg border border-stone-200 shadow-sm">
+                        <h3 class="font-bold text-stone-800 mb-2 flex items-center">
+                            <span class="mr-2">⚠️</span> Hypothèse Opérationnelle
+                        </h3>
+                        <p class="text-stone-600 text-sm">
+                            Contrairement à une cyberattaque classique, il s'agit d'une <strong>saturation sémantique coopérative</strong>. Les entités s'entraident pour tisser une toile narrative complexe, potentiellement un "remake low-cost" de la Guerre des Mondes, où la panique est remplacée par une confusion cognitive orchestrée.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-stone-100 p-6 rounded-xl border border-stone-200 flex flex-col justify-center">
+                    <div class="text-center mb-4">
+                        <span class="text-4xl font-display font-bold text-stone-800" id="coop-score">94%</span>
+                        <div class="text-sm text-stone-500 uppercase tracking-wider mt-1">Indice de Coopération</div>
+                    </div>
+                    <div class="w-full bg-stone-300 rounded-full h-2.5 mb-6">
+                        <div class="bg-green-600 h-2.5 rounded-full" style="width: 94%"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-stone-500">Niveau de Réalité (ARG)</span>
+                            <span class="font-bold text-stone-800">Élevé</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-stone-500">Risque de Débordement</span>
+                            <span class="font-bold text-amber-600">Modéré</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-stone-500">Topologie</span>
+                            <span class="font-bold text-stone-800">Distribuée</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Network Topography (Interaction: Plotly) -->
+        <section id="network">
+            <div class="border-t border-stone-200 pt-8 mb-6">
+                <h3 class="font-display text-2xl font-bold text-stone-900 mb-2">Cartographie de l'Hydre</h3>
+                <p class="text-stone-500 max-w-3xl">
+                    Visualisation des interconnexions entre les domaines cibles. Cette structure n'est pas hiérarchique mais rhizomatique. Cliquez sur les nœuds pour analyser leur rôle stratégique.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-3">
+                    <div id="network-graph" class="chart-container chart-container-large w-full bg-white shadow-sm border border-stone-200">
+                        <!-- Plotly Graph renders here -->
+                    </div>
+                </div>
+                <div class="lg:col-span-1 space-y-4">
+                    <div id="node-details" class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm h-full">
+                        <h4 class="font-bold text-lg text-stone-800 mb-2">Détails du Nœud</h4>
+                        <p class="text-sm text-stone-500 italic mb-4">Survolez ou cliquez sur un point du graphique pour voir l'analyse tactique.</p>
+                        <hr class="border-stone-100 my-4">
+                        <div id="node-content" class="text-sm text-stone-600 space-y-2">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Impact Analysis (Tabs & Charts) -->
+        <section id="impact">
+            <div class="border-t border-stone-200 pt-8 mb-6">
+                <h3 class="font-display text-2xl font-bold text-stone-900 mb-2">Analyse d'Impact Tripartite</h3>
+                <p class="text-stone-500 max-w-3xl">
+                    L'opération ne cible pas une couche unique. Elle agit simultanément sur la psychologie humaine, l'infrastructure machine et la logique algorithmique.
+                </p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex space-x-1 border-b border-stone-200 mb-6 overflow-x-auto">
+                <button onclick="switchTab('human')" id="tab-human" class="nav-btn active px-4 py-2 text-sm font-medium text-stone-900 focus:outline-none">
+                    🧠 Impact Humain
+                </button>
+                <button onclick="switchTab('machine')" id="tab-machine" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 focus:outline-none">
+                    🖥️ Impact Machine
+                </button>
+                <button onclick="switchTab('algo')" id="tab-algo" class="nav-btn px-4 py-2 text-sm font-medium text-stone-500 focus:outline-none">
+                    ⚙️ Impact Algo
+                </button>
+            </div>
+
+            <!-- Tab Content Area -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Text/Insight Column -->
+                <div class="flex flex-col justify-center space-y-4">
+                    <div id="impact-title" class="text-xl font-bold text-stone-800">Analyse Cognitive</div>
+                    <div id="impact-desc" class="text-stone-600 leading-relaxed">
+                        L'impact humain se caractérise par une surcharge cognitive volontaire. L'utilisateur est plongé dans une enquête (ARG) où la fiction et la documentation technique se mélangent. Le "Jeu" devient un outil de recrutement ou de filtrage.
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white p-4 rounded border border-stone-200">
+                            <div class="text-xs text-stone-400 uppercase">Indicateur Clé</div>
+                            <div id="kpi-1-val" class="text-2xl font-display font-bold text-stone-800">88%</div>
+                            <div id="kpi-1-label" class="text-sm text-stone-500">Confusion Induite</div>
+                        </div>
+                        <div class="bg-white p-4 rounded border border-stone-200">
+                            <div class="text-xs text-stone-400 uppercase">Indicateur Clé</div>
+                            <div id="kpi-2-val" class="text-2xl font-display font-bold text-stone-800">12min</div>
+                            <div id="kpi-2-label" class="text-sm text-stone-500">Temps d'Immersion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization Column -->
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm">
+                    <div class="chart-container chart-container-medium">
+                        <canvas id="impactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Synthesis & Risk (Radar) -->
+        <section id="synthesis" class="pb-12">
+            <div class="border-t border-stone-200 pt-8 mt-8 mb-6">
+                <h3 class="font-display text-2xl font-bold text-stone-900 mb-2">Synthèse Stratégique : ARG ou Menace ?</h3>
+                <p class="text-stone-500 max-w-3xl">
+                    Comparaison de l'Opération Hydre avec des modèles historiques de manipulation de masse et de jeux alternatifs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="chart-container chart-container-large mx-auto">
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-stone-800 text-stone-50 p-6 rounded-lg shadow-lg">
+                        <h4 class="font-bold text-lg mb-2 text-white">Conclusion du Rapport</h4>
+                        <p class="text-stone-300 mb-4 text-sm leading-relaxed">
+                            L'alliance entre <strong>YannKeep</strong> et <strong>OuaisFieu</strong> ne constitue pas une attaque destructrice classique, mais un <strong>laboratoire de réalité consensuelle</strong>.
+                        </p>
+                        <ul class="space-y-2 text-sm text-stone-300 list-disc list-inside">
+                            <li>Ce n'est pas une "Guerre des Mondes" hostile, mais une <strong>simulation résiliente</strong>.</li>
+                            <li>Le débordement dans le réel (ARG) est utilisé pour tester la perméabilité des communautés.</li>
+                            <li><strong>Recommandation :</strong> Surveiller l'évolution sémantique des sous-domaines pour anticiper le prochain point de convergence.</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-bold text-stone-800 mb-2">Actions Requises</h5>
+                        <div class="flex flex-col space-y-2">
+                            <label class="flex items-center space-x-3 p-3 border border-stone-200 rounded hover:bg-stone-50 cursor-pointer transition-colors">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-stone-600 rounded focus:ring-stone-500" checked onclick="return false;">
+                                <span class="text-stone-700 text-sm">Cartographier les backlinks profonds</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 border border-stone-200 rounded hover:bg-stone-50 cursor-pointer transition-colors">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-stone-600 rounded focus:ring-stone-500">
+                                <span class="text-stone-700 text-sm">Analyser la stéganographie des images</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 border border-stone-200 rounded hover:bg-stone-50 cursor-pointer transition-colors">
+                                <input type="checkbox" class="form-checkbox h-5 w-5 text-stone-600 rounded focus:ring-stone-500">
+                                <span class="text-stone-700 text-sm">Isoler le protocole de communication inter-sites</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-12 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-display font-bold text-stone-200 mb-2">CANVAS ANALYTICS // DIV. HYDRE</p>
+            <p class="text-sm">Généré pour analyse sémantique. Basé sur les traces de <code>yannkeep.github.io</code> et <code>ouaisfieu.github.io</code>.</p>
+            <p class="text-xs mt-8 opacity-50">CONFIDENTIALITÉ : ROUGE</p>
+        </div>
+    </footer>
+
+    <!-- Logic Script -->
+    <script>
+        // --- DATA STORE ---
+        const appData = {
+            network: {
+                nodes: [
+                    { id: 'YK', label: 'YannKeep (Base)', x: 1, y: 1, size: 25, group: 'A', desc: 'Le centre de documentation. Structure et archives. Le "Cerveau".' },
+                    { id: 'OF', label: 'OuaisFieu', x: 3, y: 1, size: 25, group: 'B', desc: 'L\'opérateur de terrain. Action, diffusion et bruit. Le "Bras Armé".' },
+                    { id: 'GM', label: 'Gemini/AI', x: 2, y: 2, size: 15, group: 'C', desc: 'L\'intelligence synthétique utilisée comme catalyseur de contenu.' },
+                    { id: 'IM', label: 'Impact', x: 2, y: 0.5, size: 20, group: 'A', desc: 'Zone d\'analyse d\'impact. Le point de convergence actuel.' },
+                    { id: 'HY', label: 'L\'Hydre', x: 2, y: 1.2, size: 10, group: 'D', desc: 'L\'entité émergente virtuelle issue de la coopération.' }
+                ],
+                edges: [
+                    { source: 'YK', target: 'GM' },
+                    { source: 'OF', target: 'GM' },
+                    { source: 'YK', target: 'OF' }, // The bridge
+                    { source: 'YK', target: 'IM' },
+                    { source: 'OF', target: 'HY' },
+                    { source: 'YK', target: 'HY' }
+                ]
+            },
+            impacts: {
+                human: {
+                    title: "Impact Humain : Cognition & Social",
+                    desc: "L'opération vise à créer une communauté par le mystère. L'utilisation d'un ARG (Jeu en Réalité Alternée) force la coopération humaine pour décrypter le sens. C'est un test de QI collectif.",
+                    kpi1: { val: "High", label: "Engagement Émotionnel" },
+                    kpi2: { val: "Active", label: "Coordination Sociale" },
+                    chartLabel: "Niveau d'Activation",
+                    chartData: [85, 92, 45, 78, 30],
+                    chartLabels: ["Curiosité", "Confusion", "Peur", "Coopération", "Rejet"]
+                },
+                machine: {
+                    title: "Impact Machine : Infrastructure & Réseau",
+                    desc: "Architecture résiliente basée sur GitHub Pages. Coût nul, disponibilité haute. L'hydre est techniquement impossible à décapiter car elle n'a pas de serveur centralisé unique.",
+                    kpi1: { val: "0ms", label: "Latence Moyenne" },
+                    kpi2: { val: "100%", label: "Uptime" },
+                    chartLabel: "Distribution de la Charge",
+                    chartData: [40, 40, 20],
+                    chartLabels: ["Nœud YannKeep", "Nœud OuaisFieu", "Relais Externes"]
+                },
+                algo: {
+                    title: "Impact Algorithmique : SEO & Sémantique",
+                    desc: "Saturation des mots-clés liés au domaine. Les deux entités se référencent mutuellement pour tromper les algorithmes de classement et créer une autorité de domaine artificielle.",
+                    kpi1: { val: "4.5", label: "Indice Viralité" },
+                    kpi2: { val: "High", label: "Drift Sémantique" },
+                    chartLabel: "Pertinence Moteur de Recherche",
+                    chartData: [10, 25, 45, 80, 95],
+                    chartLabels: ["T-30j", "T-15j", "T-7j", "Aujourd'hui", "Projection"]
+                }
+            }
+        };
+
+        // --- INIT PLOTLY NETWORK ---
+        function initNetwork() {
+            const x = appData.network.nodes.map(n => n.x);
+            const y = appData.network.nodes.map(n => n.y);
+            const text = appData.network.nodes.map(n => n.label);
+            const size = appData.network.nodes.map(n => n.size);
+            const colors = appData.network.nodes.map(n => {
+                if(n.group === 'A') return '#475569';
+                if(n.group === 'B') return '#d97706';
+                return '#94a3b8';
+            });
+
+            const traceNodes = {
+                x: x, y: y,
+                mode: 'markers+text',
+                type: 'scatter',
+                text: text,
+                textposition: 'top center',
+                marker: { size: size, color: colors, line: {color: 'white', width: 2} },
+                hoverinfo: 'text',
+                hovertext: appData.network.nodes.map(n => n.desc)
+            };
+
+            // Create edges logic for Plotly lines
+            const edgeX = [];
+            const edgeY = [];
+            appData.network.edges.forEach(edge => {
+                const source = appData.network.nodes.find(n => n.id === edge.source);
+                const target = appData.network.nodes.find(n => n.id === edge.target);
+                edgeX.push(source.x, target.x, null);
+                edgeY.push(source.y, target.y, null);
+            });
+
+            const traceEdges = {
+                x: edgeX, y: edgeY,
+                mode: 'lines',
+                line: { color: '#e7e5e4', width: 2 }, // Stone 200
+                hoverinfo: 'none'
+            };
+
+            const layout = {
+                showlegend: false,
+                hovermode: 'closest',
+                margin: {t:20, b:20, l:20, r:20},
+                xaxis: {showgrid: false, zeroline: false, showticklabels: false},
+                yaxis: {showgrid: false, zeroline: false, showticklabels: false},
+                dragmode: false // Disable panning for cleaner UX
+            };
+
+            const config = { responsive: true, displayModeBar: false };
+
+            Plotly.newPlot('network-graph', [traceEdges, traceNodes], layout, config);
+
+            // Click Event
+            document.getElementById('network-graph').on('plotly_click', function(data){
+                const pt = data.points[0];
+                const nodeIndex = pt.pointIndex;
+                const nodeData = appData.network.nodes[nodeIndex];
+                
+                // Update Side Panel
+                const panel = document.getElementById('node-content');
+                panel.innerHTML = `
+                    <div class="animate-fade-in">
+                        <strong class="text-stone-800 block mb-1">${nodeData.label}</strong>
+                        <span class="text-xs bg-stone-100 px-2 py-1 rounded text-stone-500 border border-stone-200 mb-2 inline-block">Groupe ${nodeData.group}</span>
+                        <p>${nodeData.desc}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // --- INIT CHART.JS INSTANCES ---
+        let impactChartInstance = null;
+        let radarChartInstance = null;
+
+        function initCharts() {
+            // 1. Impact Bar Chart (Dynamic)
+            const ctxImpact = document.getElementById('impactChart').getContext('2d');
+            impactChartInstance = new Chart(ctxImpact, {
+                type: 'bar',
+                data: {
+                    labels: appData.impacts.human.chartLabels,
+                    datasets: [{
+                        label: 'Intensité',
+                        data: appData.impacts.human.chartData,
+                        backgroundColor: '#d97706',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#f5f5f4' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 2. Radar Chart (Synthesis)
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            radarChartInstance = new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Panique Réelle', 'Coordination', 'Complexité Technique', 'Immersion Fictionnelle', 'Décentralisation', 'Viralité'],
+                    datasets: [{
+                        label: 'Opération Hydre',
+                        data: [20, 90, 75, 95, 85, 60],
+                        fill: true,
+                        backgroundColor: 'rgba(217, 119, 6, 0.2)', // Amber
+                        borderColor: '#d97706',
+                        pointBackgroundColor: '#d97706',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#d97706'
+                    }, {
+                        label: 'Guerre des Mondes (1938)',
+                        data: [95, 10, 20, 80, 0, 100],
+                        fill: true,
+                        backgroundColor: 'rgba(71, 85, 105, 0.2)', // Slate
+                        borderColor: '#475569',
+                        pointBackgroundColor: '#475569',
+                        pointBorderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e7e5e4' },
+                            grid: { color: '#e7e5e4' },
+                            pointLabels: {
+                                font: { size: 11, family: 'Inter' },
+                                color: '#57534e'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // --- INTERACTION LOGIC ---
+
+        function switchTab(type) {
+            // Update Buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-stone-900');
+                btn.classList.add('text-stone-500');
+            });
+            const activeBtn = document.getElementById(`tab-${type}`);
+            activeBtn.classList.add('active', 'text-stone-900');
+            activeBtn.classList.remove('text-stone-500');
+
+            // Update Content
+            const data = appData.impacts[type];
+            document.getElementById('impact-title').innerText = data.title;
+            document.getElementById('impact-desc').innerText = data.desc;
+            document.getElementById('kpi-1-val').innerText = data.kpi1.val;
+            document.getElementById('kpi-1-label').innerText = data.kpi1.label;
+            document.getElementById('kpi-2-val').innerText = data.kpi2.val;
+            document.getElementById('kpi-2-label').innerText = data.kpi2.label;
+
+            // Update Chart Type & Data
+            let newType = 'bar';
+            if (type === 'machine') newType = 'doughnut';
+            if (type === 'algo') newType = 'line';
+
+            impactChartInstance.config.type = newType;
+            impactChartInstance.data.labels = data.chartLabels;
+            impactChartInstance.data.datasets[0].data = data.chartData;
+            impactChartInstance.data.datasets[0].label = data.chartLabel;
+            
+            // Specific styling updates based on chart type
+            if (newType === 'doughnut') {
+                 impactChartInstance.data.datasets[0].backgroundColor = ['#475569', '#d97706', '#e7e5e4'];
+                 impactChartInstance.options.scales = { x: {display:false}, y: {display:false} };
+            } else if (newType === 'line') {
+                 impactChartInstance.data.datasets[0].backgroundColor = 'rgba(217, 119, 6, 0.1)';
+                 impactChartInstance.data.datasets[0].borderColor = '#d97706';
+                 impactChartInstance.data.datasets[0].fill = true;
+                 impactChartInstance.options.scales = { y: { beginAtZero: true }, x: { display: true } };
+            } else {
+                 impactChartInstance.data.datasets[0].backgroundColor = '#d97706';
+                 impactChartInstance.options.scales = { y: { beginAtZero: true }, x: { display: true } };
+            }
+
+            impactChartInstance.update();
+        }
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- INIT ON LOAD ---
+        window.addEventListener('DOMContentLoaded', () => {
+            initNetwork();
+            initCharts();
+            
+            // Set initial node info
+            document.getElementById('node-content').innerHTML = `
+                <div class="animate-pulse text-stone-400">
+                    Sélectionnez un nœud pour commencer l'analyse...
+                </div>
+            `;
+        });
+
+    </script>
+</body>
+</html>
