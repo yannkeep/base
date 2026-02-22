@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erreur 404 - Support Technique BROL</title>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "Pourquoi mon module affiche-t-il une erreur 404 ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "La réalité que vous cherchez a probablement été supprimée ou n'a jamais existé. Avez-vous essayé de l'éteindre et de la rallumer ?"
+      }
+    }, {
+      "@type": "Question",
+      "name": "Comment contacter le support technique ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ne nous contactez pas. Nous savons déjà que vous avez un problème. Le Reste Peut Attendre."
+      }
+    }]
+  }
+  </script>
+
+  <style>
+    body {
+      margin: 0; padding: 30px; font-family: "Courier New", monospace;
+      background: #020617; color: #bbf7d0; /* Vert (base) */
+      display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;
+      text-align: center;
+    }
+    .error-code {
+      font-size: 5rem; font-weight: bold; color: #22c55e;
+      text-shadow: 0 0 15px rgba(34, 197, 94, 0.6);
+      margin: 0; animation: glitch 2s linear infinite;
+    }
+    .message { font-size: 1.2rem; margin-top: 10px; color: #e5e7eb; }
+    .sub-message { font-size: 0.85rem; color: #64748b; margin-top: 20px; max-width: 400px; }
+    
+    @keyframes glitch {
+      2%, 64% { transform: translate(2px, 0) skew(0deg); }
+      4%, 60% { transform: translate(-2px, 0) skew(0deg); }
+      62% { transform: translate(0, 0) skew(5deg); }
+    }
+    
+    .btn-reboot {
+      margin-top: 30px; padding: 10px 20px; border: 1px solid #22c55e;
+      background: rgba(34, 197, 94, 0.1); color: #bbf7d0;
+      border-radius: 4px; cursor: pointer; text-transform: uppercase; font-weight: bold;
+    }
+    .btn-reboot:hover { background: #22c55e; color: #020617; }
+  </style>
+</head>
+<body>
+
+  <h1 class="error-code">404</h1>
+  <div class="message">Rupture du continuum espace-temps.</div>
+  
+  <div class="sub-message">
+    <p>> Le fichier demandé s'est perdu dans les méandres de l'intranet.</p>
+    <p>> Solution recommandée : Éteignez votre écran, fixez votre reflet sombre, et demandez-vous comment vous en êtes arrivé là.</p>
+  </div>
+
+  <button class="btn-reboot" onclick="alert('Redémarrage de l\'univers en cours... Veuillez patienter 13 milliards d\'années.')">Redémarrer le système</button>
+
+</body>
+</html>
