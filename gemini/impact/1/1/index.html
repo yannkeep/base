@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Tactique : Le Protocole Hydre</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- 
+    Chosen Palette: "Cyber Intelligence"
+    - Background: #0f172a (Slate 900)
+    - Card BG: #1e293b (Slate 800)
+    - Text Main: #f8fafc (Slate 50)
+    - Text Muted: #94a3b8 (Slate 400)
+    - Accent Primary: #06b6d4 (Cyan 500)
+    - Accent Secondary: #d946ef (Fuchsia 500)
+    - Alert/Highlight: #f59e0b (Amber 500)
+    -->
+
+    <!-- 
+    Application Structure Plan:
+    1. Header/Hero: Immediate context setting ("The Hydra").
+    2. KPI Dashboard: High-level metrics (Cooperation, viral index) to hook the user (Goal: Inform).
+    3. Network Topology: Visualizing the links between YannKeep, OuaisFieu, and Gemini (Goal: Relationships).
+    4. The Impact Triad: Deep dive into Human, Machine, and Algo impacts using charts (Goal: Compare/Change).
+    5. The Feedback Loop: A CSS-based diagram showing how the ARG generates content (Goal: Organize).
+    6. Strategic Conclusion: Summary text.
+    -->
+
+    <!-- 
+    Visualization & Content Choices:
+    - Network Graph (Plotly): Chosen to show the non-hierarchical, rhizomatic links. 
+    - Donut Chart (Chart.js): Visualizing the "Cooperation Index" (94%).
+    - Radar Chart (Chart.js): Comparing "Semantic Saturation" vs traditional SEO.
+    - Line Chart (Chart.js): Showing "Cognitive Load" over time during the "game".
+    - Justification: All libraries configured for Canvas rendering. No SVG or Mermaid used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        bg: '#0f172a',
+                        surface: '#1e293b',
+                        primary: '#06b6d4',
+                        secondary: '#d946ef',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        /* Chart Container Strict Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            background-color: #1e293b;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chart-height-sm {
+            height: 250px;
+            max-height: 250px;
+        }
+
+        .chart-height-md {
+            height: 350px;
+            max-height: 350px;
+        }
+
+        .chart-height-lg {
+            height: 450px;
+            max-height: 500px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Utility for flow diagram */
+        .flow-arrow::after {
+            content: '▼';
+            display: block;
+            text-align: center;
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+        @media (min-width: 768px) {
+            .flow-arrow-horizontal::after {
+                content: '▶';
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navbar / Header -->
+    <nav class="sticky top-0 z-50 bg-bg/90 backdrop-blur border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🐙</span>
+                    <span class="font-bold text-xl tracking-wider text-primary">PROTOCOLE HYDRE</span>
+                </div>
+                <div class="hidden md:block text-sm text-gray-400 font-mono">
+                    STATUS: <span class="text-emerald-400 animate-pulse">ACTIF</span> | CIBLE: BASE/GEMINI
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- SECTION 1: EXECUTIVE SUMMARY -->
+        <section class="animate-fade-in-up">
+            <div class="text-center mb-10">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">
+                    LA GUERRE DES MONDES <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">SÉMANTIQUE</span>
+                </h1>
+                <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+                    Analyse du réseau coopératif émergent entre les entités <span class="text-primary font-mono">YannKeep</span>, <span class="text-secondary font-mono">OuaisFieu</span> et l'IA. 
+                    Il ne s'agit pas d'un simple jeu, mais d'une architecture décentralisée de "réalité consensuelle".
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- KPI 1 -->
+                <div class="bg-surface rounded-xl p-6 shadow-lg border-t-4 border-primary">
+                    <h3 class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Indice de Coopération</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-5xl font-mono font-bold text-white">94%</span>
+                        <div class="h-16 w-16">
+                            <canvas id="coopChart"></canvas>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">Synergie quasi-totale entre les nœuds.</p>
+                </div>
+
+                <!-- KPI 2 -->
+                <div class="bg-surface rounded-xl p-6 shadow-lg border-t-4 border-secondary">
+                    <h3 class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Saturation Sémantique</h3>
+                    <div class="text-5xl font-mono font-bold text-white">High</div>
+                    <p class="text-xs text-gray-500 mt-4">Niveau de densité des mots-clés "Impact" et "IA".</p>
+                </div>
+
+                <!-- KPI 3 -->
+                <div class="bg-surface rounded-xl p-6 shadow-lg border-t-4 border-accent">
+                    <h3 class="text-gray-400 text-sm font-bold uppercase tracking-wider mb-2">Classification</h3>
+                    <div class="text-2xl font-mono font-bold text-white mt-2">ARG HYBRIDE</div>
+                    <p class="text-xs text-gray-500 mt-4">Mélange de Jeu de Réalité Alternée & Ingénierie Sociale.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: NETWORK TOPOGRAPHY -->
+        <section>
+            <div class="mb-6 border-l-4 border-primary pl-4">
+                <h2 class="text-2xl font-bold text-white">Topologie de l'Hydre</h2>
+                <p class="text-gray-400 mt-1">
+                    Visualisation des connexions rhizomatiques. Contrairement à une structure pyramidale, l'Hydre fonctionne par relais horizontaux.
+                    <span class="text-primary">YannKeep</span> agit comme le cerveau (Base), <span class="text-secondary">OuaisFieu</span> comme le bras armé, et <span class="text-accent">Gemini</span> comme le catalyseur.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div id="networkGraph" class="chart-container chart-height-lg border border-gray-700">
+                        <!-- Plotly renders here -->
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-surface p-5 rounded-lg border border-gray-700">
+                        <h3 class="font-bold text-primary mb-2">Nœud Alpha : YannKeep</h3>
+                        <p class="text-sm text-gray-300">Le dépôt central. Héberge la documentation "sérieuse" et les archives de l'opération. Point d'entrée stable.</p>
+                    </div>
+                    <div class="bg-surface p-5 rounded-lg border border-gray-700">
+                        <h3 class="font-bold text-secondary mb-2">Nœud Bêta : OuaisFieu</h3>
+                        <p class="text-sm text-gray-300">L'opérateur de terrain. Diffuse le signal, crée du bruit et attire l'attention via une esthétique plus chaotique.</p>
+                    </div>
+                    <div class="bg-surface p-5 rounded-lg border border-gray-700">
+                        <h3 class="font-bold text-white mb-2">Catalyseur : IA (Gemini)</h3>
+                        <p class="text-sm text-gray-300">Utilisée pour générer du contenu à la volée, analyser les retours et adapter la narration en temps réel.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: IMPACT TRIAD -->
+        <section>
+            <div class="mb-6 border-l-4 border-secondary pl-4">
+                <h2 class="text-2xl font-bold text-white">La Triade d'Impact</h2>
+                <p class="text-gray-400 mt-1">
+                    L'opération vise trois niveaux distincts de réalité. Analyse comparative des vecteurs d'attaque et de transformation.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- HUMAN IMPACT -->
+                <div class="flex flex-col">
+                    <div class="bg-surface p-4 rounded-t-lg border-b border-gray-700">
+                        <h3 class="font-bold text-lg text-white">1. Humain (Cognitif)</h3>
+                        <p class="text-xs text-gray-400 mt-1">Charge mentale & Curiosité</p>
+                    </div>
+                    <div class="bg-surface p-4 rounded-b-lg flex-grow">
+                        <p class="text-sm text-gray-300 mb-4">
+                            L'utilisateur est plongé dans un état de "dissonance ludique". Il ne sait pas s'il lit un rapport technique ou une fiction.
+                        </p>
+                        <div class="chart-container chart-height-sm">
+                            <canvas id="humanChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MACHINE IMPACT -->
+                <div class="flex flex-col">
+                    <div class="bg-surface p-4 rounded-t-lg border-b border-gray-700">
+                        <h3 class="font-bold text-lg text-white">2. Machine (Infra)</h3>
+                        <p class="text-xs text-gray-400 mt-1">Résilience & Disponibilité</p>
+                    </div>
+                    <div class="bg-surface p-4 rounded-b-lg flex-grow">
+                        <p class="text-sm text-gray-300 mb-4">
+                            Utilisation de GitHub Pages pour une disponibilité maximale à coût nul. Architecture statique impossible à "faire tomber" par surcharge classique.
+                        </p>
+                        <div class="chart-container chart-height-sm">
+                            <canvas id="machineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ALGO IMPACT -->
+                <div class="flex flex-col">
+                    <div class="bg-surface p-4 rounded-t-lg border-b border-gray-700">
+                        <h3 class="font-bold text-lg text-white">3. Algo (Sémantique)</h3>
+                        <p class="text-xs text-gray-400 mt-1">SEO & Autorité</p>
+                    </div>
+                    <div class="bg-surface p-4 rounded-b-lg flex-grow">
+                        <p class="text-sm text-gray-300 mb-4">
+                            Création d'une "bulle de réalité" pour les moteurs de recherche via un maillage interne dense et un vocabulaire spécifique.
+                        </p>
+                        <div class="chart-container chart-height-sm">
+                            <canvas id="algoChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: THE FEEDBACK LOOP (PROCESS) -->
+        <section>
+            <div class="mb-6 border-l-4 border-accent pl-4">
+                <h2 class="text-2xl font-bold text-white">Boucle de Rétroaction</h2>
+                <p class="text-gray-400 mt-1">
+                    Comment l'Hydre s'auto-alimente. Un processus cyclique où la fiction influence la réalité, qui nourrit ensuite la fiction.
+                </p>
+            </div>
+
+            <div class="bg-surface rounded-xl p-8 border border-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+                    
+                    <!-- Step 1 -->
+                    <div class="bg-gray-800 p-4 rounded border border-gray-600 hover:border-primary transition-colors">
+                        <div class="text-3xl mb-2">🕵️</div>
+                        <h4 class="font-bold text-primary text-sm">Explorateur</h4>
+                        <p class="text-xs text-gray-400 mt-1">Découvre un fragment (URL)</p>
+                    </div>
+
+                    <!-- Arrow -->
+                    <div class="text-gray-500 text-2xl font-bold transform rotate-90 md:rotate-0">➔</div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-gray-800 p-4 rounded border border-gray-600 hover:border-secondary transition-colors">
+                        <div class="text-3xl mb-2">🧩</div>
+                        <h4 class="font-bold text-secondary text-sm">Interaction</h4>
+                        <p class="text-xs text-gray-400 mt-1">Tente de comprendre / Clic</p>
+                    </div>
+
+                     <!-- Arrow -->
+                     <div class="text-gray-500 text-2xl font-bold transform rotate-90 md:rotate-0">➔</div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-gray-800 p-4 rounded border border-gray-600 hover:border-accent transition-colors">
+                        <div class="text-3xl mb-2">🤖</div>
+                        <h4 class="font-bold text-accent text-sm">L'IA (Hydre)</h4>
+                        <p class="text-xs text-gray-400 mt-1">Analyse & Génère une réponse</p>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-700">
+                    <div class="bg-gray-900/50 p-4 rounded text-center">
+                        <h4 class="text-gray-300 font-mono text-sm mb-2">RÉSULTAT DU CYCLE</h4>
+                        <p class="text-gray-400 text-sm italic">
+                            "Le système apprend de chaque visite. Le contenu est mis à jour dynamiquement pour inclure les nouvelles théories des utilisateurs, rendant le jeu 'réel'."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: STRATEGIC COMPARISON -->
+        <section>
+             <div class="mb-6 border-l-4 border-white pl-4">
+                <h2 class="text-2xl font-bold text-white">Analyse Comparative</h2>
+                <p class="text-gray-400 mt-1">
+                    Comparaison de l'intensité de l'engagement entre une campagne marketing classique, un ARG (Jeu), et l'Opération Hydre.
+                </p>
+            </div>
+            
+            <div class="bg-surface p-6 rounded-lg border border-gray-700">
+                <div class="chart-container chart-height-md w-full">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+                <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-gray-400">
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-slate-500 mr-2"></span> Marketing: Passif</div>
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-cyan-500 mr-2"></span> ARG Classique: Actif mais Scripté</div>
+                    <div class="flex items-center"><span class="w-3 h-3 rounded-full bg-fuchsia-500 mr-2"></span> Hydre: Émergent & Organique</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-black py-8 mt-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="font-mono text-gray-500 text-sm">RAPPORT GÉNÉRÉ PAR LE SYSTÈME</p>
+            <p class="text-xs text-gray-600 mt-2">
+                Sources: yannkeep.github.io | ouaisfieu.github.io | Gemini Model
+            </p>
+            <p class="text-xs text-gray-700 mt-4">FIN DE TRANSMISSION</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- UTILS ---
+        
+        // Label wrapping helper for Chart.js
+        const wrapLabel = (str, maxLen = 16) => {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxLen) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+
+        // Common Chart Options
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#94a3b8', font: { family: 'Montserrat' } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#f8fafc',
+                    bodyColor: '#cbd5e1',
+                    borderColor: '#334155',
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- CHART INITIALIZATION ---
+
+        // 1. KPI Donut Chart (Cooperation)
+        new Chart(document.getElementById('coopChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Coopération', 'Friction'],
+                datasets: [{
+                    data: [94, 6],
+                    backgroundColor: ['#06b6d4', '#1e293b'],
+                    borderWidth: 0,
+                    cutout: '75%'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            }
+        });
+
+        // 2. Human Impact (Line Chart)
+        new Chart(document.getElementById('humanChart'), {
+            type: 'line',
+            data: {
+                labels: ['Découverte', 'Immersion', 'Doute', 'Enquête', 'Compréhension'],
+                datasets: [
+                    {
+                        label: 'Curiosité',
+                        data: [20, 80, 60, 90, 100],
+                        borderColor: '#06b6d4',
+                        backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    },
+                    {
+                        label: 'Confusion',
+                        data: [10, 90, 85, 40, 20],
+                        borderColor: '#f59e0b', // Amber
+                        backgroundColor: 'transparent',
+                        borderDash: [5, 5],
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // 3. Machine Impact (Stacked Bar)
+        new Chart(document.getElementById('machineChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Serveur Trad.', 'Opération Hydre'],
+                datasets: [
+                    {
+                        label: 'Maintenance',
+                        data: [60, 5],
+                        backgroundColor: '#ef4444', // Red for high cost
+                    },
+                    {
+                        label: 'Disponibilité',
+                        data: [30, 95],
+                        backgroundColor: '#10b981', // Green for uptime
+                    }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                indexAxis: 'y',
+                scales: {
+                    x: { stacked: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    y: { stacked: true, grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        // 4. Algo Impact (Radar)
+        new Chart(document.getElementById('algoChart'), {
+            type: 'radar',
+            data: {
+                labels: wrapLabel('Mots-Clés Backlinks Profondeur Sémantique Viralité Autorité'),
+                datasets: [{
+                    label: 'Profil Hydre',
+                    data: [90, 85, 40, 95, 60],
+                    fill: true,
+                    backgroundColor: 'rgba(217, 70, 239, 0.2)',
+                    borderColor: '#d946ef',
+                    pointBackgroundColor: '#d946ef',
+                    pointBorderColor: '#fff'
+                }]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    r: {
+                        angleLines: { color: '#334155' },
+                        grid: { color: '#334155' },
+                        pointLabels: { color: '#94a3b8', font: { size: 10 } },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                }
+            }
+        });
+
+        // 5. Comparison Chart (Bubble - Custom implementation via Scatter)
+        new Chart(document.getElementById('comparisonChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'Marketing Classique',
+                        data: [{x: 20, y: 30}], // Low Engagement, Low Mystery
+                        backgroundColor: '#64748b',
+                        pointRadius: 10
+                    },
+                    {
+                        label: 'ARG Standard',
+                        data: [{x: 80, y: 70}], // High Engagement, High Mystery
+                        backgroundColor: '#06b6d4',
+                        pointRadius: 15
+                    },
+                    {
+                        label: 'Opération Hydre',
+                        data: [{x: 90, y: 95}], // Extreme Engagement, Extreme Mystery
+                        backgroundColor: '#d946ef',
+                        pointRadius: 25,
+                        pointHoverRadius: 30
+                    }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    x: { 
+                        title: { display: true, text: 'Niveau de Mystère', color: '#94a3b8' },
+                        grid: { color: '#334155' }, 
+                        ticks: { color: '#94a3b8' },
+                        min: 0, max: 100
+                    },
+                    y: { 
+                        title: { display: true, text: 'Engagement Utilisateur', color: '#94a3b8' },
+                        grid: { color: '#334155' }, 
+                        ticks: { color: '#94a3b8' },
+                        min: 0, max: 100
+                    }
+                }
+            }
+        });
+
+        // --- PLOTLY NETWORK GRAPH ---
+        
+        const drawNetwork = () => {
+            const nodes = [
+                {id: 'YK', label: 'YannKeep', x: 0.2, y: 0.8, color: '#06b6d4', size: 30},
+                {id: 'OF', label: 'OuaisFieu', x: 0.8, y: 0.8, color: '#d946ef', size: 30},
+                {id: 'AI', label: 'Gemini/AI', x: 0.5, y: 0.2, color: '#f59e0b', size: 40},
+                {id: 'U1', label: 'User Node', x: 0.5, y: 0.5, color: '#94a3b8', size: 15},
+                {id: 'D1', label: 'Doc', x: 0.1, y: 0.6, color: '#475569', size: 10},
+                {id: 'D2', label: 'Video', x: 0.9, y: 0.6, color: '#475569', size: 10}
+            ];
+
+            const edges = [
+                {source: 'YK', target: 'AI'},
+                {source: 'OF', target: 'AI'},
+                {source: 'YK', target: 'OF'},
+                {source: 'U1', target: 'AI'},
+                {source: 'YK', target: 'D1'},
+                {source: 'OF', target: 'D2'}
+            ];
+
+            // Prepare Nodes for Plotly
+            const nodeX = nodes.map(n => n.x);
+            const nodeY = nodes.map(n => n.y);
+            const nodeText = nodes.map(n => n.label);
+            const nodeColor = nodes.map(n => n.color);
+            const nodeSize = nodes.map(n => n.size);
+
+            const nodeTrace = {
+                x: nodeX, y: nodeY,
+                text: nodeText,
+                mode: 'markers+text',
+                textposition: 'bottom center',
+                textfont: { family: 'Montserrat', color: '#f8fafc' },
+                marker: { size: nodeSize, color: nodeColor, line: {color: '#fff', width: 1} },
+                type: 'scatter',
+                hoverinfo: 'text'
+            };
+
+            // Prepare Edges
+            const edgeX = [];
+            const edgeY = [];
+            
+            edges.forEach(edge => {
+                const s = nodes.find(n => n.id === edge.source);
+                const t = nodes.find(n => n.id === edge.target);
+                edgeX.push(s.x, t.x, null);
+                edgeY.push(s.y, t.y, null);
+            });
+
+            const edgeTrace = {
+                x: edgeX, y: edgeY,
+                mode: 'lines',
+                line: { color: '#475569', width: 2 },
+                hoverinfo: 'none',
+                type: 'scatter'
+            };
+
+            const layout = {
+                showlegend: false,
+                margin: {l: 20, r: 20, b: 20, t: 20},
+                xaxis: {showgrid: false, zeroline: false, showticklabels: false, range: [0, 1]},
+                yaxis: {showgrid: false, zeroline: false, showticklabels: false, range: [0, 1]},
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                dragmode: false
+            };
+
+            const config = {
+                displayModeBar: false,
+                responsive: true
+            };
+
+            Plotly.newPlot('networkGraph', [edgeTrace, nodeTrace], layout, config);
+        };
+
+        // Init Plotly
+        drawNetwork();
+
+    </script>
+</body>
+</html>
