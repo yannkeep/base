@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr" prefix="og: https://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal d'Impact — Intelligence Citoyenne | ouaisfieu</title>
+  <meta name="description" content="Plateforme d'OSINT et d'analyse politique. Accédez aux dossiers d'intelligence citoyenne sans friction.">
+  <meta name="robots" content="index, follow">
+  
+  <link rel="canonical" href="https://ouaisfieu.github.io/impact/" />
+
+  <meta property="og:title" content="Terminal d'Impact — Intelligence Citoyenne" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ouaisfieu.github.io/impact/" />
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Terminal d'Impact",
+    "applicationCategory": "CivicTech",
+    "operatingSystem": "Web",
+    "url": "https://ouaisfieu.github.io/impact/"
+  }
+  </script>
+
+  <style>
+    /* DESIGN SYSTEM V2 : Plus épuré, plus pro, focus sur la lecture */
+    :root {
+      --bg-base: #020617;
+      --bg-panel: #0f172a;
+      --accent: #22c55e;
+      --text-main: #e2e8f0;
+      --text-muted: #64748b;
+      --border: rgba(51, 65, 85, 0.8);
+      --font-ui: system-ui, sans-serif;
+      --font-mono: 'Courier New', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-base); color: var(--text-main);
+      font-family: var(--font-ui); height: 100vh;
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(2, 6, 23, 0.9); border-bottom: 1px solid var(--border);
+      padding: 12px 20px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .brand { font-family: var(--font-mono); font-weight: bold; color: var(--accent); letter-spacing: 2px; }
+
+    /* LAYOUT PRINCIPAL */
+    main {
+      flex: 1; display: grid; grid-template-columns: 300px 1fr 250px;
+      overflow: hidden;
+    }
+
+    /* PANNEAUX LATERAUX */
+    .sidebar { background: var(--bg-panel); border-right: 1px solid var(--border); overflow-y: auto; padding: 15px; }
+    .rightbar { background: var(--bg-panel); border-left: 1px solid var(--border); overflow-y: auto; padding: 15px; }
+
+    .nav-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+    
+    .nav-item {
+      display: block; padding: 10px; border-radius: 8px; margin-bottom: 5px;
+      cursor: pointer; border: 1px solid transparent; transition: all 0.2s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.05); }
+    .nav-item.active { background: rgba(34, 197, 94, 0.1); border-color: var(--accent); }
+    .nav-item-title { font-weight: 600; font-size: 0.9rem; }
+    .nav-item-meta { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ZONE DE LECTURE CENTRALE */
+    .viewer {
+      position: relative; overflow-y: auto; padding: 40px;
+      background: radial-gradient(circle at top center, rgba(30,41,59,0.5), transparent 80%);
+      scroll-behavior: smooth;
+    }
+
+    /* L'astuce magique : On stylise le contenu injecté directement ici */
+    #content-payload { max-width: 800px; margin: 0 auto; line-height: 1.7; font-size: 1.05rem; }
+    #content-payload h1 { font-size: 2.2rem; margin-bottom: 20px; color: #fff; }
+    #content-payload h2 { font-size: 1.5rem; margin: 30px 0 15px; border-bottom: 1px solid var(--border); padding-bottom: 5px; }
+    #content-payload p { margin-bottom: 15px; }
+    #content-payload .data-box { background: rgba(0,0,0,0.3); border-left: 3px solid var(--accent); padding: 15px; margin: 20px 0; font-family: var(--font-mono); font-size: 0.9rem; }
+
+    /* LOADER ET IFRAME EXTERNE */
+    .loader { position: absolute; inset: 0; background: var(--bg-base); display: flex; align-items: center; justify-content: center; z-index: 10; opacity: 0; pointer-events: none; transition: 0.2s; }
+    .loader.active { opacity: 1; pointer-events: auto; }
+    
+    #external-viewer { display: none; width: 100%; height: 100%; border: none; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) { main { grid-template-columns: 250px 1fr; } .rightbar { display: none; } }
+    @media (max-width: 768px) { main { grid-template-columns: 1fr; } .sidebar { display: none; } .viewer { padding: 20px; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">O/F — TERMINAL D'IMPACT</div>
+    <div style="font-family: monospace; font-size: 0.8rem; color: #64748b;">Niveau d'accès : Citoyen</div>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <div class="nav-title">Dossiers d'Investigation</div>
+      <div id="nav-container">
+        </div>
+    </aside>
+
+    <section class="viewer" id="main-viewer">
+      <div class="loader" id="loader"><span style="color:#22c55e; font-family:monospace;">[ ASPIRATION DES DONNÉES... ]</span></div>
+      
+      <article id="content-payload">
+        <h1>Bienvenue sur le Terminal</h1>
+        <p>Sélectionnez un dossier dans la base de données pour décrypter le système.</p>
+      </article>
+
+      <iframe id="external-viewer" src="about:blank"></iframe>
+    </section>
+
+    <aside class="rightbar">
+      <div class="nav-title">Outils & OSINT</div>
+      <div class="nav-item" onclick="loadExternal('https://boot-a-rat.vercel.app/')">
+        <div class="nav-item-title">Intranet Détective</div>
+        <div class="nav-item-meta">OSINT / Verrouillé</div>
+      </div>
+      <div class="nav-item" onclick="loadExternal('https://www.youtube-nocookie.com/embed/gk-dZo37IJA')">
+        <div class="nav-item-title">DÉM·OS (Vidéo)</div>
+        <div class="nav-item-meta">YouTube Embed</div>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    // LA BASE DE DONNÉES (Pointera vers tes fichiers physiques HTML)
+    const database = [
+      { id: "particratie", title: "La Particratie Belge", meta: "Analyse Politique", file: "particratie.html" },
+      { id: "budget", title: "Autopsie du Budget Arizona", meta: "Économie", file: "budget.html" },
+      { id: "chomage", title: "Limitation Chômage 24 Mois", meta: "Exclusion", file: "chomage.html" },
+      { id: "malades", title: "Malades de Longue Durée", meta: "Santé Publique", file: "malades.html" }
+    ];
+
+    const navContainer = document.getElementById('nav-container');
+    const contentPayload = document.getElementById('content-payload');
+    const externalViewer = document.getElementById('external-viewer');
+    const loader = document.getElementById('loader');
+
+    // 1. GÉNÉRER LE MENU
+    function initNav() {
+      database.forEach(doc => {
+        const el = document.createElement('div');
+        el.className = 'nav-item';
+        el.id = `nav-${doc.id}`;
+        el.innerHTML = `<div class="nav-item-title">${doc.title}</div><div class="nav-item-meta">${doc.meta}</div>`;
+        el.onclick = () => loadInternal(doc.id);
+        navContainer.appendChild(el);
+      });
+    }
+
+    // 2. LE MOTEUR FETCH (Aspiration du contenu)
+    async function loadInternal(id, pushState = true) {
+      const doc = database.find(d => d.id === id);
+      if(!doc) return;
+
+      // UX: Activer le loader et gérer les menus
+      loader.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.getElementById(`nav-${id}`).classList.add('active');
+      
+      // Basculer l'affichage (cacher l'iframe externe, montrer la div interne)
+      externalViewer.style.display = 'none';
+      contentPayload.style.display = 'block';
+
+      // Modification de l'URL pour le partage
+      if (pushState) window.history.pushState({id: id}, '', `?read=${id}`);
+
+      try {
+        // L'ASPIRATION : On télécharge le fichier HTML physique
+        const response = await fetch(doc.file);
+        if (!response.ok) throw new Error('Fichier introuvable');
+        const html = await response.text();
+
+        // L'EXTRACTION : On isole juste la balise <main> ou <article> du fichier
+        const parser = new DOMParser();
+        const virtualDOM = parser.parseFromString(html, 'text/html');
+        // On cherche le contenu utile (adapte le sélecteur selon ton template)
+        const extractedContent = virtualDOM.querySelector('main') || virtualDOM.querySelector('article') || virtualDOM.body;
+
+        // L'INJECTION : On place le contenu pur dans notre Terminal
+        contentPayload.innerHTML = extractedContent.innerHTML;
+        
+        // Remonter en haut de la page
+        document.getElementById('main-viewer').scrollTop = 0;
+
+      } catch (error) {
+        contentPayload.innerHTML = `<h1>Erreur 404</h1><p>Le document classifié est introuvable ou a été purgé.</p>`;
+      } finally {
+        setTimeout(() => loader.classList.remove('active'), 200);
+      }
+    }
+
+    // 3. CHARGER UN OUTIL EXTERNE (Iframe)
+    function loadExternal(url) {
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      contentPayload.style.display = 'none';
+      externalViewer.style.display = 'block';
+      externalViewer.src = url;
+      window.history.pushState({}, '', `?tool=active`);
+    }
+
+    // 4. GESTION DU BOUTON PRÉCÉDENT DU NAVIGATEUR
+    window.addEventListener("popstate", (event) => {
+      const params = new URLSearchParams(window.location.search);
+      const readId = params.get('read');
+      if (readId) loadInternal(readId, false);
+      else { contentPayload.innerHTML = "<h1>Terminal Prêt</h1>"; externalViewer.style.display = 'none'; contentPayload.style.display = 'block'; }
+    });
+
+    // INIT
+    initNav();
+    const initialParams = new URLSearchParams(window.location.search);
+    if(initialParams.get('read')) loadInternal(initialParams.get('read'), false);
+  </script>
+</body>
+</html>
