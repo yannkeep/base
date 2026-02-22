@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STIC de l'Anarchie | Jeu de Simulation Capitaliste</title>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "STIC de l'Anarchie",
+    "description": "Simulation ludique de l'effondrement capitaliste avec des licornes et des bisounours.",
+    "playMode": "SinglePlayer",
+    "applicationCategory": "Game",
+    "genre": ["Simulation", "Satire"],
+    "operatingSystem": "Web Browser"
+  }
+  </script>
+
+  <style>
+    body {
+      margin: 0; padding: 20px; font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+      background: #fdf2f8; color: #831843; text-align: center;
+      border: 5px dashed #f472b6; height: 100vh; box-sizing: border-box;
+    }
+    h1 { font-size: 2.5rem; color: #ec4899; text-shadow: 2px 2px #fbcfe8; }
+    .game-area {
+      background: #fff; border: 3px solid #f9a8d4; border-radius: 15px;
+      padding: 30px; margin: 20px auto; max-width: 500px;
+      box-shadow: 0 10px 25px rgba(244, 114, 182, 0.4);
+    }
+    .btn-play {
+      background: linear-gradient(45deg, #fb7185, #f43f5e); border: none;
+      padding: 15px 30px; font-size: 1.2rem; color: white; border-radius: 50px;
+      cursor: pointer; font-weight: bold; text-transform: uppercase;
+      transition: transform 0.1s;
+    }
+    .btn-play:active { transform: scale(0.95); }
+    .stats { display: flex; justify-content: space-around; font-size: 1.1rem; margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>🦄 STIC DE L'ANARCHIE 🌈</h1>
+  
+  <div class="game-area">
+    <p>Détruisez le marché de l'arc-en-ciel avant que les actionnaires Bisounours ne vous rachètent.</p>
+    
+    <button class="btn-play" onclick="document.getElementById('pib').innerText = parseInt(document.getElementById('pib').innerText) - 1000 + ' €'">RUI-NER L'ÉCONOMIE</button>
+    
+    <div class="stats">
+      <span>Dette: <span id="pib" style="color:#e11d48">0 €</span></span>
+      <span>Licornes sauvées: 0</span>
+    </div>
+  </div>
+
+  <p><em>(Attention : Ce jeu provoque une prise de conscience brutale des marchés financiers).</em></p>
+
+</body>
+</html>
